@@ -108,6 +108,53 @@ for region in north south east west; do
   radiostack deploy libretime --ctid 35$i --name "station-$region"
 done
 ```
+## Proposed Repository Structure:
+
+radiostack/  
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── docs/
+│   ├── getting-started.md
+│   ├── deployment-guide.md
+│   ├── azuracast.md
+│   ├── libretime.md
+│   ├── architecture.md
+│   └── troubleshooting.md
+├── scripts/
+│   ├── radiostack.sh              # Main CLI entry point
+│   ├── lib/
+│   │   ├── common.sh              # Common functions
+│   │   ├── container.sh           # Container operations
+│   │   ├── storage.sh             # ZFS operations
+│   │   └── inventory.sh           # Inventory management
+│   ├── platforms/
+│   │   ├── azuracast.sh
+│   │   ├── libretime.sh
+│   │   └── icecast.sh             # Future: standalone Icecast
+│   └── tools/
+│       ├── bulk-operations.sh
+│       ├── backup.sh
+│       └── migrate.sh
+├── configs/
+│   ├── azuracast.conf.example
+│   ├── libretime.conf.example
+│   └── inventory.csv.example
+├── templates/
+│   ├── docker-compose/
+│   │   ├── azuracast.yml
+│   │   └── libretime.yml
+│   └── nginx/
+│       ├── azuracast-proxy.conf
+│       └── libretime-proxy.conf
+├── tests/
+│   ├── test-azuracast.sh
+│   └── test-libretime.sh
+└── examples/
+    ├── basic-deployment.sh
+    ├── multi-station.sh
+    └── migration.sh
+
 
 ## 🔧 Platform Support
 
@@ -158,7 +205,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 👥 Credits
 
-**Created by**: TecnoSoul Infrastructure Team & Claude AI
+**Created by**: TecnoSoul & Claude AI
 
 
 ## 🔗 Links
