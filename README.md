@@ -21,20 +21,23 @@ RadioStack is a comprehensive bash-based deployment framework for running profes
 git clone https://github.com/matias-tecnosoul/radiostack.git
 cd radiostack
 
-# Install RadioStack
-sudo ./install.sh
-
 # Deploy AzuraCast station
-radiostack deploy azuracast --ctid 340 --name main-station
+sudo ./scripts/platforms/azuracast.sh -i 340 -n main-station
 
 # Deploy LibreTime station
-radiostack deploy libretime --ctid 350 --name fm-rock
+sudo ./scripts/platforms/libretime.sh -i 350 -n fm-rock
 
 # Check status of all stations
-radiostack status
+sudo ./scripts/tools/status.sh --all
 
-# Update all AzuraCast instances
-radiostack update azuracast --all
+# Update specific container
+sudo ./scripts/tools/update.sh --ctid 340
+
+# Backup container
+sudo ./scripts/tools/backup.sh --ctid 340
+
+# View logs
+sudo ./scripts/tools/logs.sh --ctid 340 --follow
 ```
 
 ## 📋 Requirements
@@ -88,24 +91,26 @@ RadioStack uses LXC containers with a two-tier storage strategy:
 
 ### Small Station (1-2 streams)
 ```bash
-radiostack deploy azuracast --ctid 340 --name station \
-  --cores 4 --memory 8192 --quota 200G
+./scripts/platforms/azuracast.sh -i 340 -n station \
+  -c 4 -m 8192 -q 200G
 ```
 
 ### Medium Station (3-5 streams)
 ```bash
-radiostack deploy azuracast --ctid 340 --name station \
-  --cores 6 --memory 12288 --quota 500G
+./scripts/platforms/azuracast.sh -i 340 -n station \
+  -c 6 -m 12288 -q 500G
 ```
 
 ### Large Multi-Station Deployment
 ```bash
 # Main station
-radiostack deploy azuracast --ctid 340 --name main --quota 1T
+./scripts/platforms/azuracast.sh -i 340 -n main -q 1T
 
 # Regional stations
+i=0
 for region in north south east west; do
-  radiostack deploy libretime --ctid 35$i --name "station-$region"
+  ./scripts/platforms/libretime.sh -i 35$i -n "station-$region"
+  ((i++))
 done
 ```
 ## Proposed Repository Structure:
@@ -179,7 +184,7 @@ cd radiostack
 ## 📊 Real-World Usage
 
 RadioStack is used in production by:
-- **TecnoSoul** - 20+ radio stations across Argentina
+- **TecnoSoul** - 40+ radio stations across South America
 - Various community radio stations
 - Educational broadcasting projects
 
