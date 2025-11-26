@@ -382,7 +382,7 @@ count_stations() {
     fi
 
     local count
-    count=$(grep -c "^[0-9]" "$INVENTORY_FILE" 2>/dev/null || echo "0")
+    count=$(tail -n +2 "$INVENTORY_FILE" 2>/dev/null | grep -c "^[0-9]" 2>/dev/null || echo "0")
     echo "$count"
 }
 
@@ -406,7 +406,7 @@ count_by_platform() {
     fi
 
     local count
-    count=$(grep -ci "^[0-9]*,$platform_type," "$INVENTORY_FILE" 2>/dev/null || echo "0")
+    count=$(tail -n +2 "$INVENTORY_FILE" 2>/dev/null | grep -ci "^[0-9]*,$platform_type," 2>/dev/null || echo "0")
     echo "$count"
 }
 
