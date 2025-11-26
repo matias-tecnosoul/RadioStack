@@ -381,9 +381,8 @@ count_stations() {
         return 0
     fi
 
-    local count
-    count=$(tail -n +2 "$INVENTORY_FILE" 2>/dev/null | grep -c "^[0-9]" 2>/dev/null || echo "0")
-    echo "$count"
+    # grep -c outputs count but exits 1 when count is 0, so use || true to ignore exit code
+    tail -n +2 "$INVENTORY_FILE" 2>/dev/null | grep -c "^[0-9]" || true
 }
 
 # Function: count_by_platform
@@ -405,9 +404,8 @@ count_by_platform() {
         return 0
     fi
 
-    local count
-    count=$(tail -n +2 "$INVENTORY_FILE" 2>/dev/null | grep -ci "^[0-9]*,$platform_type," 2>/dev/null || echo "0")
-    echo "$count"
+    # grep -c outputs count but exits 1 when count is 0, so use || true to ignore exit code
+    tail -n +2 "$INVENTORY_FILE" 2>/dev/null | grep -ci "^[0-9]*,$platform_type," || true
 }
 
 # Function: export_inventory
